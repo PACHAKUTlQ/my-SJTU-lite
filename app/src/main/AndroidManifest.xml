@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.List"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="jaccount"/>
+        </intent>
+    </queries>
+
+    <application
+            android:allowBackup="true"
+            android:dataExtractionRules="@xml/data_extraction_rules"
+            android:fullBackupContent="@xml/backup_rules"
+            android:icon="@mipmap/ic_shortcut_unicode_copy_2x"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_shortcut_unicode_copy_2x"
+            android:supportsRtl="true"
+            android:theme="@style/Theme.思源码Lite"
+            android:usesCleartextTraffic="true"
+            tools:targetApi="31">
+
+        <activity
+                android:name=".MainActivity"
+                android:exported="true"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.思源码Lite"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+
+        </activity>
+        <!-- 声明widget对应的AppWidgetProvider -->
+        <!--android:name属性声明的就是 Widget 所用的 AppWidgetProvider 类-->
+        <receiver android:name=".widget.UnicodeWidgetProvider" android:exported="true">
+            <intent-filter>
+                <!--所有的窗口小部件都接收android.appwidget.action.APPWIDGET_UPDATE 动作的广播，
+                该广播根据android:updatePeriodMillis设定的间隔时间发出广播，用于定时更新桌面上的所有窗口小部件。-->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <!--定义一个自定义的动作广播，可以通过在该广播接收器中注册自定义的动作以使窗口小部件接收自定义的广播。-->
+                <action android:name="com.example.siyuanmalite.widget.UPDATE_ALL"/>
+                <action android:name="com.example.siyuanmalite.widget.click"></action>
+            </intent-filter>
+            <!--声明了 Widget 的 AppWidgetProviderInfo 对应的资源 xml 的位置，用的是 xml 目录下的 example_appwidget_info.xml。-->
+            <meta-data
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/example_appwidget_info"/>
+        </receiver>
+
+    </application>
+
+</manifest>

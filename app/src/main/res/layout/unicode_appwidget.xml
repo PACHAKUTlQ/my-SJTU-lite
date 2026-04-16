@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/mainFrame"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:layout_height="match_parent">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginBottom="6sp"
+                          android:textSize="18sp" android:visibility="gone"
+                                android:gravity="center"
+                          android:text="@string/siyuanma">
+
+                </TextView>
+                <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                        <ImageView android:id="@+id/ivCode"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="24dp"
+                                   android:scaleType="fitCenter"
+                                   android:adjustViewBounds="true"
+                                   android:src="@drawable/pay_code_inactive"/>
+                        <TextView android:textSize="18sp"
+                                  android:textColor="#262626"
+                                  android:gravity="center"
+                                  android:id="@+id/tvFail1"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  android:text="点击加载思源码"/>
+                </FrameLayout>
+
+        </LinearLayout>
+
+</FrameLayout>

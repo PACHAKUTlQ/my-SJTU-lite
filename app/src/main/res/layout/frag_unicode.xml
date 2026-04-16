@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:tools="http://schemas.android.com/tools"
+             tools:context=".UnicodeFragment">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@color/darkblue"
+                android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    app:titleCentered="true"
+                    app:title="思源码 Lite"
+                    android:textSize="12sp"
+                    app:titleTextColor="@color/white"
+                    android:layout_height="52dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+                android:background="@color/colorLightGray" android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clBg" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clId"
+                                                                   android:background="@color/darkblue"
+                                                                   android:layout_width="0dp"
+                                                                   android:layout_height="wrap_content"
+                                                                   app:layout_constraintEnd_toEndOf="parent"
+                                                                   app:layout_constraintStart_toStartOf="parent"
+                                                                   app:layout_constraintTop_toTopOf="parent"
+                                                                   app:layout_constraintHorizontal_bias="1.0">
+                    <ImageView android:id="@+id/ivDecorate1" android:layout_width="0dp" android:layout_height="108dp"
+                               android:src="@drawable/ic_paycode_decorate" android:scaleType="fitXY"
+                               app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                               app:layout_constraintStart_toStartOf="parent"/>
+                    <ImageView android:id="@+id/ivDecorate2" android:layout_width="100dp" android:layout_height="100dp"
+                               android:src="@drawable/ic_logo_gray" android:scaleType="fitXY"
+                               android:layout_marginEnd="18dp" app:layout_constraintBottom_toTopOf="@+id/ivDecorate1"
+                               app:layout_constraintEnd_toEndOf="parent"/>
+                    <androidx.cardview.widget.CardView android:id="@+id/ivPhotoContainer"
+                                                       app:layout_constraintStart_toStartOf="parent"
+                                                       app:layout_constraintTop_toTopOf="parent"
+                                                       app:cardCornerRadius="4dp"
+                                                       android:layout_width="78dp"
+                                                       android:layout_height="104dp"
+                                                       android:layout_marginTop="2dp"
+                                                       android:layout_marginStart="18dp">
+                        <ImageView android:id="@+id/ivPhoto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   android:scaleType="centerCrop"
+                                   android:src="@drawable/card_photo_default_male"
+                                   app:layout_constraintStart_toStartOf="parent"
+                                   app:layout_constraintTop_toTopOf="parent"/>
+                    </androidx.cardview.widget.CardView>
+                    <TextView android:textSize="16sp"
+                              android:textColor="@color/white"
+                              android:ellipsize="end"
+                              android:id="@+id/tvName"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:maxLines="2"
+                              android:layout_marginStart="18dp"
+                              android:layout_marginEnd="4dp"
+                              android:text="交小喵 1234567890"
+                              app:layout_constraintBottom_toTopOf="@+id/tvOrganize"
+                              app:layout_constraintEnd_toEndOf="parent"
+                              app:layout_constraintHorizontal_bias="1"
+                              app:layout_constraintStart_toEndOf="@+id/ivPhotoContainer"
+                              app:layout_constraintTop_toTopOf="@+id/ivPhotoContainer"
+                              app:layout_constraintVertical_chainStyle="packed"
+                    />
+                    <TextView android:textSize="16sp"
+                              android:textColor="@color/white"
+                              android:ellipsize="end"
+                              android:gravity="start|center_vertical"
+                              android:id="@+id/tvOrganize"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="8dp"
+                              android:maxLines="2"
+                              android:layout_marginEnd="4dp"
+                              app:layout_constrainedWidth="true"
+                              android:text="上海交通大学"
+                              app:layout_constraintBottom_toBottomOf="@+id/ivPhotoContainer"
+                              app:layout_constraintEnd_toEndOf="parent"
+                              app:layout_constraintHorizontal_bias="0.0"
+                              app:layout_constraintStart_toStartOf="@+id/tvName"
+                              app:layout_constraintTop_toBottomOf="@+id/tvName"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="124dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clTitle" android:background="#fcefe6" android:paddingTop="8dp" android:paddingBottom="8dp" android:visibility="invisible" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="12dp" android:paddingEnd="10dp">
+                            <ImageView android:id="@+id/ivTitle" android:visibility="gone" android:layout_width="28dp" android:layout_height="28dp" android:scaleType="fitXY" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="@android:color/holo_orange_dark" android:id="@+id/tvTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_marginEnd="4dp" app:layout_constrainedWidth="true" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/tvTitleGo" app:layout_constraintHorizontal_bias="0" app:layout_constraintStart_toEndOf="@+id/ivTitle" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="#666666" android:gravity="end" android:id="@+id/tvTitleGo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="120dp" android:layout_marginStart="8dp" app:drawableEndCompat="@drawable/ic_svg_right" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clCode" android:background="@color/white" android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <ImageView android:id="@+id/ivCode"
+                                       android:layout_width="0dp"
+                                       android:layout_height="0dp"
+                                       android:layout_marginTop="28dp"
+                                       android:layout_marginBottom="28dp"
+                                       android:scaleType="fitXY"
+                                       android:adjustViewBounds="true"
+                                       app:layout_constraintBottom_toBottomOf="parent"
+                                       app:layout_constraintDimensionRatio="1:1"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:layout_constraintWidth_percent="0.6"
+                                       android:src="@drawable/pay_code_inactive"/>
+                            <Space android:id="@+id/guide" android:layout_width="wrap_content" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="@+id/ivCode" app:layout_constraintStart_toStartOf="@+id/ivCode" app:layout_constraintTop_toTopOf="@+id/ivCode"/>
+                            <ImageView android:id="@+id/ivFail" android:layout_width="84dp" android:layout_height="84dp" android:layout_marginBottom="12dp" android:src="@drawable/ic_net_error" android:scaleType="centerInside" app:layout_constraintBottom_toTopOf="@+id/guide" app:layout_constraintEnd_toEndOf="@+id/ivCode" app:layout_constraintStart_toStartOf="@+id/ivCode"/>
+                            <TextView android:textSize="18sp" android:textColor="#262626" android:gravity="center" android:id="@+id/tvFail1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/network_abnormal" app:layout_constraintEnd_toEndOf="@+id/ivCode" app:layout_constraintStart_toStartOf="@+id/ivCode" app:layout_constraintTop_toBottomOf="@+id/guide"/>
+                            <TextView android:textSize="14sp" android:textColor="#909399" android:id="@+id/tvFail2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/cannot_show_code_retry" app:layout_constraintEnd_toEndOf="@+id/ivCode" app:layout_constraintStart_toStartOf="@+id/ivCode" app:layout_constraintTop_toBottomOf="@+id/tvFail1"/>
+                            <Button android:textSize="16sp" android:textColor="@color/white" android:id="@+id/btnRefresh" android:background="@drawable/selector_bg_blue_4_enable_disable" android:layout_width="0dp" android:layout_height="40dp" android:layout_marginTop="12dp" android:text="@string/refresh" android:layout_marginStart="50dp" android:layout_marginEnd="50dp" app:layout_constraintEnd_toEndOf="@+id/ivCode" app:layout_constraintStart_toStartOf="@+id/ivCode" app:layout_constraintTop_toBottomOf="@+id/tvFail2" style="?attr/borderlessButtonStyle"/>
+                            <androidx.constraintlayout.widget.Group android:id="@+id/groupFail" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" app:constraint_referenced_ids="ivFail,tvFail1,tvFail2,btnRefresh"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clHint" android:background="#fa541c" android:paddingTop="8dp" android:paddingBottom="8dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="10dp" android:paddingEnd="10dp">
+                            <ImageView android:id="@+id/ivHint" android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/icon_hint_white" android:scaleType="fitXY" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="@color/white" android:id="@+id/tvInactive" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/network_abnormal_retry" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" app:layout_constrainedWidth="true" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/btnActive" app:layout_constraintHorizontal_bias="0" app:layout_constraintStart_toEndOf="@+id/ivHint" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="@color/white" android:gravity="end" android:id="@+id/btnActive" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="120dp" android:drawablePadding="4dp" android:layout_marginStart="8dp" app:drawableEndCompat="@drawable/icon_right_white" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clError" android:background="#fff5f2" android:paddingTop="12dp" android:paddingBottom="12dp" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="40dp">
+                            <TextView android:textSize="14sp" android:textColor="#fa541c" android:id="@+id/tvErrorHint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_marginEnd="8dp" app:layout_constrainedWidth="true" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/tvErrorAction" app:layout_constraintHorizontal_bias="0" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_goneMarginEnd="12dp"/>
+                            <TextView android:textSize="14sp" android:textColor="#fa541c" android:id="@+id/tvErrorAction" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="12dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View android:id="@+id/viewLine" android:background="#f6f6f6" android:layout_width="match_parent" android:layout_height="1dp" app:layout_constraintEnd_toEndOf="@+id/clCode" app:layout_constraintStart_toStartOf="@+id/clCode" app:layout_constraintTop_toBottomOf="@+id/clCode"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clChooseCard" android:background="@color/white" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="52dp" app:layout_constraintEnd_toEndOf="@+id/clCode" app:layout_constraintStart_toStartOf="@+id/clCode" app:layout_constraintTop_toBottomOf="@+id/clCode">
+                            <ImageView android:id="@+id/ivCard" android:layout_width="20dp" android:layout_height="20dp" android:scaleType="centerInside" android:layout_marginStart="10dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="#262626" android:id="@+id/tvCard" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10dp" app:layout_constrainedWidth="true" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/tvWalletHint" app:layout_constraintHorizontal_bias="0" app:layout_constraintStart_toEndOf="@+id/ivCard" app:layout_constraintTop_toTopOf="parent" app:layout_goneMarginEnd="10dp"/>
+                            <TextView android:textSize="12sp" android:textColor="@color/darkblue" android:gravity="center" android:id="@+id/tvWalletHint" android:background="@drawable/bg_bubble_light_blue" android:paddingTop="4dp" android:paddingBottom="4dp" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/wallet_has_balance" android:paddingStart="10dp" android:paddingEnd="12dp" android:layout_marginEnd="4dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/ivCardGo" app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="#fa541c" android:id="@+id/ivCardGo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="4dp" android:layout_marginEnd="10dp" app:drawableEndCompat="@drawable/ic_arrow_down_gray" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                            <androidx.constraintlayout.widget.Group android:id="@+id/groupChooseCard" android:layout_width="wrap_content" android:layout_height="wrap_content" app:constraint_referenced_ids="ivCard,tvCard"/>
+                            <ImageView
+                                    android:id="@+id/ivPayHint"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_wechat"
+                                    android:scaleType="fitXY"
+                                    android:layout_marginStart="12dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView
+                                    android:textSize="14sp"
+                                    android:textColor="#262626"
+                                    android:id="@+id/tvPayHint"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="微信支付"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_marginEnd="4dp"
+                                    app:layout_constrainedWidth="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/tvPayHintGo"
+                                    app:layout_constraintHorizontal_bias="0"
+                                    app:layout_constraintStart_toEndOf="@+id/ivPayHint"
+                                    app:layout_constraintTop_toTopOf="parent"/>
+                            <TextView android:textSize="14sp" android:textColor="#666666" android:id="@+id/tvPayHintGo" android:layout_width="wrap_content" android:layout_height="wrap_content" android:drawablePadding="4dp" android:layout_marginEnd="10dp" app:drawableEndCompat="@drawable/ic_svg_right" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                            <androidx.constraintlayout.widget.Group android:id="@+id/groupPayHint" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" app:constraint_referenced_ids="ivPayHint,tvPayHint,tvPayHintGo"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/clBanner" android:background="@drawable/shape_bg_round_white_5" android:layout_width="0dp" android:layout_height="0dp" android:layout_marginTop="12dp" android:layout_marginBottom="20dp" android:layout_marginStart="18dp" android:layout_marginEnd="18dp" app:layout_constraintDimensionRatio="h,34:7" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/cardView">
+                    <ImageView android:id="@+id/ivAd"
+                               android:visibility="visible"
+                               android:layout_width="match_parent"
+                               android:layout_height="match_parent"
+                               android:src="@drawable/siyuanma_ad"
+                               android:scaleType="fitCenter"/>
+                    <TextView android:textSize="18sp" android:textColor="#262626" android:id="@+id/tvAdMsg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_marginEnd="12dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/clBanner">
+                    <RadioGroup android:id="@+id/radioGroup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:layout_margin="10dp">
+                            <RadioButton android:id="@+id/wechatPay"
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:text="微信"/>
+                            <RadioButton android:id="@+id/walletPay"
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginStart="10dp"
+                                         android:text="钱包"/>
+                            <RadioButton android:id="@+id/bocPay"
+                                         android:layout_width="wrap_content"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginStart="10dp"
+                                         android:text="中国银行"/>
+                    </RadioGroup>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/cardView3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:orientation="horizontal" android:layout_margin="10dp">
+
+                        <CheckBox android:id="@+id/checkIdentity"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="身份"/>
+                        <CheckBox android:id="@+id/checkPay"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="10dp"
+                                  android:text="支付"/>
+                        <CheckBox android:id="@+id/checkHideInfo"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="10dp"
+                                  android:text="隐藏个人信息"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>
