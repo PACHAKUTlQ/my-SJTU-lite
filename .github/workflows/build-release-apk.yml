@@ -1,0 +1,225 @@
+name: Build and Release APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, for example v1.0.0"
+        required: true
+        type: string
+      release_name:
+        description: "Optional release title. Defaults to the tag."
+        required: false
+        type: string
+      notes:
+        description: "Optional release notes. If empty, generated notes can be used."
+        required: false
+        type: string
+      prerelease:
+        description: "Mark this release as a prerelease"
+        required: true
+        default: false
+        type: boolean
+      generate_notes:
+        description: "Generate GitHub release notes automatically if notes is empty"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.event.inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      JAVA_VERSION: "25"
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Prepare Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+            export ANDROID_SDK_ROOT="${ANDROID_HOME:-}"
+          fi
+
+          if [ -z "${ANDROID_SDK_ROOT:-}" ] || [ ! -d "${ANDROID_SDK_ROOT}" ]; then
+            echo "ANDROID_SDK_ROOT or ANDROID_HOME is not available on this runner."
+            exit 1
+          fi
+
+          echo "sdk.dir=${ANDROID_SDK_ROOT}" > local.properties
+
+          if [ -f app/build.gradle ]; then
+            APP_GRADLE_FILE="app/build.gradle"
+          elif [ -f app/build.gradle.kts ]; then
+            APP_GRADLE_FILE="app/build.gradle.kts"
+          else
+            echo "Could not find app/build.gradle or app/build.gradle.kts"
+            exit 1
+          fi
+
+          COMPILE_SDK=$(grep -Eo 'compileSdk(Version)?[[:space:]]*[=]?[[:space:]]*[0-9]+' "$APP_GRADLE_FILE" | grep -Eo '[0-9]+' | head -n1 || true)
+          BUILD_TOOLS=$(grep -Eo 'buildToolsVersion[[:space:]]*[=]?[[:space:]]*"[^"]+"' "$APP_GRADLE_FILE" | sed -E 's/.*"([^"]+)".*/\1/' | head -n1 || true)
+
+          SDKMANAGER=$(find "$ANDROID_SDK_ROOT" -type f -name sdkmanager | sort | tail -n1)
+          if [ -z "$SDKMANAGER" ]; then
+            echo "Could not find sdkmanager under $ANDROID_SDK_ROOT"
+            exit 1
+          fi
+
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+
+          PACKAGES=("platform-tools")
+          if [ -n "$COMPILE_SDK" ]; then
+            PACKAGES+=("platforms;android-${COMPILE_SDK}")
+          fi
+          if [ -n "$BUILD_TOOLS" ]; then
+            PACKAGES+=("build-tools;${BUILD_TOOLS}")
+          fi
+
+          echo "Installing SDK packages: ${PACKAGES[*]}"
+          "$SDKMANAGER" "${PACKAGES[@]}"
+
+      - name: Build release APK
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Decode signing keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${ANDROID_KEYSTORE_BASE64}" ]; then
+            echo "Missing secret: ANDROID_KEYSTORE_BASE64"
+            exit 1
+          fi
+
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > release-keystore.jks
+
+      - name: Sign APKs
+        shell: bash
+        env:
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          TAG: ${{ github.event.inputs.tag }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${KS_PASS}" ] || [ -z "${KEY_ALIAS}" ] || [ -z "${KEY_PASS}" ]; then
+            echo "Missing one or more Android signing secrets."
+            exit 1
+          fi
+
+          if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+            export ANDROID_SDK_ROOT="${ANDROID_HOME:-}"
+          fi
+
+          BUILD_TOOLS_DIR=$(find "$ANDROID_SDK_ROOT/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n1)
+          if [ -z "$BUILD_TOOLS_DIR" ]; then
+            echo "Could not find Android build-tools directory."
+            exit 1
+          fi
+
+          APKSIGNER="$BUILD_TOOLS_DIR/apksigner"
+          if [ ! -x "$APKSIGNER" ]; then
+            echo "Could not find apksigner at $APKSIGNER"
+            exit 1
+          fi
+
+          mapfile -t APKS < <(find app/build/outputs/apk/release -type f -name "*.apk" | sort)
+          if [ ${#APKS[@]} -eq 0 ]; then
+            echo "No APKs found in app/build/outputs/apk/release"
+            exit 1
+          fi
+
+          mkdir -p release-assets
+
+          for apk in "${APKS[@]}"; do
+            base="$(basename "$apk" .apk)"
+            out="release-assets/${base}-${TAG}.apk"
+
+            "$APKSIGNER" sign \
+              --ks release-keystore.jks \
+              --ks-key-alias "$KEY_ALIAS" \
+              --ks-pass env:KS_PASS \
+              --key-pass env:KEY_PASS \
+              --out "$out" \
+              "$apk"
+
+            "$APKSIGNER" verify --verbose "$out"
+            sha256sum "$out" > "${out}.sha256"
+          done
+
+          ls -lah release-assets
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: apk-${{ github.event.inputs.tag }}
+          path: release-assets/*
+
+      - name: Create or update GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag }}
+          RELEASE_NAME: ${{ github.event.inputs.release_name }}
+          NOTES: ${{ github.event.inputs.notes }}
+          PRERELEASE: ${{ github.event.inputs.prerelease }}
+          GENERATE_NOTES: ${{ github.event.inputs.generate_notes }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$RELEASE_NAME" ]; then
+            RELEASE_NAME="$TAG"
+          fi
+
+          FLAGS=()
+          if [ "$PRERELEASE" = "true" ]; then
+            FLAGS+=(--prerelease)
+          fi
+
+          if [ -n "$NOTES" ]; then
+            printf '%s\n' "$NOTES" > RELEASE_NOTES.md
+            FLAGS+=(--notes-file RELEASE_NOTES.md)
+          elif [ "$GENERATE_NOTES" = "true" ]; then
+            FLAGS+=(--generate-notes)
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" release-assets/* --clobber
+          else
+            gh release create "$TAG" release-assets/* \
+              --target "$GITHUB_SHA" \
+              --title "$RELEASE_NAME" \
+              "${FLAGS[@]}"
+          fi
