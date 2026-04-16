@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 30
 
     env:
-      JAVA_VERSION: "25"
+      JAVA_VERSION: "17"
 
     steps:
       - name: Check out source
