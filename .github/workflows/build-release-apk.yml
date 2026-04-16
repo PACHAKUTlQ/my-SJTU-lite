@@ -45,12 +45,6 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v6
 
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-
-      - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v6
-
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
@@ -59,6 +53,8 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: 7.4.2
 
       - name: Prepare Android SDK
         shell: bash
@@ -108,7 +104,7 @@ jobs:
           "$SDKMANAGER" "${PACKAGES[@]}"
 
       - name: Build release APK
-        run: ./gradlew --no-daemon assembleRelease
+        run: gradle --no-daemon :app:assembleRelease
 
       - name: Decode signing keystore
         shell: bash
